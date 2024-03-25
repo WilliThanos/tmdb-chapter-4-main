@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { MdStarRate } from "react-icons/md";
 
 const API_KEY = process?.env.API_KEY;
 
@@ -25,17 +26,28 @@ const NowPlaying = () => {
   };
 
   return (
-    <div>
-      <div>Now Playing Movies</div>
-      <ul>
+    <div className="flex flex-col justify-center items-center bg-gradient-to-r from-black via-red-900 to-yellow-300 text-white">
+      <div className="text-3xl text-red-600 font-bold underline mb-5">
+        Now Playing Movies
+      </div>
+      <ul className="flex flex-col gap-10">
         {nowPlayingMovies.map((movie) => (
           <li key={movie.id}>
             <div>{movie.title}</div>
             <div>{movie.release_date}</div>
+            <div className="flex ">
+              <MdStarRate size="25px" color="yellow" />
+              <MdStarRate size="25px" color="yellow" />
+              <MdStarRate size="25px" color="yellow" />
+              <MdStarRate size="25px" color="yellow" />
+              <MdStarRate size="25px" color="yellow" />
+              {movie.vote_averages}
+            </div>
             <img
               src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
               alt={movie.id}
             />
+            
           </li>
         ))}
       </ul>
