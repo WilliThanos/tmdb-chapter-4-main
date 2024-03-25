@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <div>
       <div>Ini adalah Homepage</div>
-      <div onClick={() => navigate("/nowplaying")}>Now Playing</div>
+      <div>Now Playing</div>
     </div>
   );
 }

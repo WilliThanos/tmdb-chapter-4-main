@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-// import { useNavigate } from "react-router-dom";
 
-// const API_KEY = process?.env.API_KEY;
+const API_KEY = process?.env.API_KEY;
 
 const NowPlaying = () => {
   const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
   console.log(process?.env.API_KEY);
-  const navigate = useNavigate();
+
   useEffect(() => {
     fetcNowPlayingMovies();
   }, []);
@@ -27,7 +26,7 @@ const NowPlaying = () => {
 
   return (
     <div>
-      <div>Now Playing Movies</div>;
+      <div>Now Playing Movies</div>
     </div>
   );
 };
