@@ -1,7 +1,7 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./Home";
-import NowPlaying from "./Farrel/NowPlaying";
+import NowPlaying from "./Farrel/NowPlaying.jsx";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -10,7 +10,7 @@ export default function App() {
       element: <Home />,
     },
     {
-      path: "/NP",
+      path: "/Np",
       element: <NowPlaying />,
     },
   ]);
