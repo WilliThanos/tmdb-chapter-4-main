@@ -26,16 +26,19 @@ const NowPlaying = () => {
   };
 
   return (
-    <div className="flex flex-col bg-gradient-to-r from-black via-red-900 to-yellow-300 text-white">
+    <div className="flex flex-col items-center justify-center bg-gradient-to-r from-black via-red-900 to-yellow-300 text-white">
       <div className="text-3xl text-red-600 font-bold underline mb-10">
         Now Playing Movies
       </div>
       <ul className="flex flex-col gap-20">
         {nowPlayingMovies.map((movie) => (
-          <li key={movie.id}>
+          <li
+            key={movie.id}
+            className="flex justify-center items-center flex-col"
+          >
             <div>{movie.title}</div>
             <div>{movie.release_date}</div>
-            <div>{movie.overview}</div>
+            <div className="w-[50%]">{movie.overview}</div>
             <div className="flex ">
               <MdStarRate size="25px" color="yellow" />
               <MdStarRate size="25px" color="yellow" />
