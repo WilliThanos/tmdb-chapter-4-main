@@ -12,7 +12,7 @@ export default function App() {
     // },
     {
       path: "/",
-      element: <MoviePopuler />,
+      element: <MoviePopuler/>,
     },
   ]);
 
