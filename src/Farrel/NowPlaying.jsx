@@ -18,42 +18,47 @@ const NowPlaying = () => {
         { headers: { accept: "application/json" } }
       );
       console.log("response.data", response.data);
-      setNowPlayingMovies(response.data.results);
+      setNowPlayingMovies(response.data.results.slice(0, 8)); // Mengambil maksimal 8 film
     } catch (error) {
       console.error("Error Fetching Data: ", error);
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center bg-gradient-to-r from-black via-red-900 to-yellow-300 text-white">
-      <div className="text-3xl text-red-600 font-bold underline mb-10">
-        Now Playing Movies
-      </div>
-      <ul className="flex flex-col gap-20">
-        {nowPlayingMovies.map((movie) => (
-          <li
-            key={movie.id}
-            className="flex justify-center items-center flex-col"
-          >
-            <div>{movie.title}</div>
-            <div>{movie.release_date}</div>
-            <div className="w-[50%]">{movie.overview}</div>
-            <div className="flex ">
-              <MdStarRate size="25px" color="yellow" />
-              <MdStarRate size="25px" color="yellow" />
-              <MdStarRate size="25px" color="yellow" />
-              <MdStarRate size="25px" color="yellow" />
-              <MdStarRate size="25px" color="yellow" />
-              {movie.vote_averages}
+    <div className="max-w-screen-lg mx-auto grid grid-cols-3 gap-6">
+      {nowPlayingMovies.map((movie) => (
+        <div
+          key={movie.id}
+          className="group relative bg-white rounded-lg overflow-hidden shadow-md"
+        >
+          <img
+            className="w-full h-32 object-cover object-center"
+            src={`https://image.tmdb.org/t/p/w400${movie.backdrop_path}`}
+            alt={movie.title}
+          />
+          <div className="p-4 opacity-100 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
+            <h3 className="text-lg font-semibold text-gray-900">
+              {movie.title}
+            </h3>
+            <p className="text-sm text-gray-500">{movie.release_date}</p>
+            <p className="mt-2 text-sm text-gray-700">{movie.overview}</p>
+            <div className="flex items-center mt-4">
+              <span className="text-sm font-medium text-green-700 bg-green-50 inline-block px-2 py-1 rounded-full">
+                {movie.vote_average}
+              </span>
+              <div className="flex ml-2">
+                {[...Array(5)].map((_, index) => (
+                  <MdStarRate
+                    key={index}
+                    size="20px"
+                    color={index < movie.vote_average / 2 ? "yellow" : "gray"}
+                  />
+                ))}
+              </div>
             </div>
-
-            <img
-              src={`https://image.tmdb.org/t/p/w400${movie.backdrop_path}`}
-              alt={movie.id}
-            />
-          </li>
-        ))}
-      </ul>
+          </div>
+        </div>
+      ))}
     </div>
   );
 };
