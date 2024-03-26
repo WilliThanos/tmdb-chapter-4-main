@@ -1,12 +1,17 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import Navigation from "./William/Navbar";
+import NowPlaying from "./Farrel/NowPlaying";
 
-export default function Home() {
-  const navigate = useNavigate();
+const Home = () => {
   return (
     <div>
-      <div>Ini adalah Homepage</div>
-      <div onClick={() => navigate("/Np")}>Now Playing</div>
+      <Navigation />
+      <NowPlaying />
+      {/* Content Lain */}
     </div>
   );
-}
+};
+
+export default Home;
+
+

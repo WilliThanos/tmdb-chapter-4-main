@@ -1,19 +1,17 @@
 import React from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from "./Home";
+import Navigation from "./William/Navbar";
 import SearchWilli from "./William/SearchWilli";
 
 export default function App() {
-  const router = createBrowserRouter([
-    // {
-    //   path: "/",
-    //   element: <Home />,
-    // },
-    {
-      path: "/",
-      element: <SearchWilli />,
-    },
-  ]);
-
-  return <RouterProvider router={router} />;
+  return (
+    <Router>
+      <Navigation />
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/search" component={SearchWilli} />
+      </Switch>
+    </Router>
+  );
 }
