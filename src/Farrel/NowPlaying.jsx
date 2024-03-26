@@ -2,11 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { MdStarRate } from "react-icons/md";
 
-const API_KEY = process?.env.API_KEY;
+const API_KEY = "94d5a1d8423851d4c5e487d3ebb00485";
 
 const NowPlaying = () => {
   const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
-  // console.log(process?.env.API_KEY);
 
   useEffect(() => {
     fetchNowPlayingMovies();
