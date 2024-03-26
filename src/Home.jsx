@@ -1,12 +1,16 @@
 import React from "react";
-import Navigation from "./William/Navbar";
+import SearchWilli from "./William/SearchWilli";
 import NowPlaying from "./Farrel/NowPlaying";
+import MoviePopuler from "./Rizal/moviePopuler";
+import TopRated from "./Vina/TopRated";
 
 const Home = () => {
   return (
     <div>
-      <Navigation />
+      <SearchWilli />
       <NowPlaying />
+      <MoviePopuler />
+      <TopRated />
       {/* Content Lain */}
     </div>
   );
