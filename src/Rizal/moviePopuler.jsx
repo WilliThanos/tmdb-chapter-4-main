@@ -1,97 +1,67 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Pagination from "../William/Pagination";
 
 const API_KEY = "c031317917e2399db20c8146bfb4fa9d";
+const MAX_CARDS_PER_PAGE = 6;
 
 export default function MoviePopuler() {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  async function fetchMoviePopuler() {
-    try {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`
-      );
-      if (!response.ok) {
-        throw new Error("Failed to Fetch Data");
-      }
-      const responseData = await response.json();
-      console.log("Data received with Async/Await:", responseData);
-      setData(responseData.results);
-      setLoading(false); // Set loading to false after receiving data
-    } catch (error) {
-      console.log("Error: ", error);
-    }
-  }
+  const [setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     fetchMoviePopuler();
-  }, []);
+  }, [currentPage]); // Fetch movies whenever currentPage changes
+
+  const fetchMoviePopuler = async () => {
+    try {
+      const response = await axios.get(
+        `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`
+      );
+      console.log("response.data", response.data);
+      setData(response.data.results);
+      setTotalPages(response.data.total_pages);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error Fetching Data: ", error);
+    }
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   return (
-    <div className="container mx-auto">
-      {loading ? (
-        <div>Loading...</div>
-      ) : (
-        <div>
-          <div className="flex justify-between bg-[#1966e3] p-5 shadow-md">
-            <div className="font-bold text-2xl">Movie Area.com</div>
-            <div className="flex justify-center">
-              <a
-                href=""
-                className="pr-5 text-xl font-semibold hover:text-white hover:bg-[#ffd230] px-2 py-1 rounded-full transition-colors duration-300 flex justify-center items-center"
-              >
-                Home
-              </a>
-              <a
-                href="#"
-                className="pr-5 text-xl font-semibold hover:text-white hover:bg-[#ffd230] px-2 py-1 rounded-full transition-colors duration-300"
-              >
-                Movie Popular
-              </a>
-              <a
-                href=""
-                className="pr-5 text-xl font-semibold hover:text-white hover:bg-[#ffd230] px-2 py-1 rounded-full transition-colors duration-300"
-              >
-                Now Playing
-              </a>
-            </div>
-          </div>
-          <p className="text-5xl font-bold flex justify-center p-5">
-            Movie Popular
-          </p>
-          <div className="grid grid-cols-4 gap-5 py-5">
-            {data.map((movie) => (
+    <div className="max-w-screen-lg mx-auto mt-8 mb-8 shadow-2xl rounded-2xl">
+      <div className="px-4 py-5 sm:px-6">
+        <h2 className="text-3xl font-bold text-gray-900 flex flex-col items-center">Popular Movies</h2>
+      </div>
+      <div className="px-4 py-5 sm:p-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          {data
+            .slice((currentPage - 1) * MAX_CARDS_PER_PAGE, currentPage * MAX_CARDS_PER_PAGE)
+            .map((movie) => (
               <div
                 key={movie.id}
-                className="relative bg-white shadow-xl rounded-lg p-4"
+                className="group relative bg-white rounded-lg overflow-hidden shadow-md transition duration-300 ease-in-out transform hover:scale-105"
               >
-                <div className="mt-2 flex justify-center items-center">
-                  <img
-                    src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
-                    alt={movie.title}
-                    className="rounded-xl shadow-md"
-                  />
-                </div>
-
-                <h2 className="text-2xl font-semibold flex justify-center py-2">
-                  {movie.title}
-                </h2>
-                <h2 className="text-xl flex justify-center">
-                  {"Tanggal Rilis : " + " "}
-                  {movie.release_date}
-                </h2>
-                <p className="text-xl text-justify py-2 ">{movie.overview}</p>
-                <div className="py-10"></div>
-                <div className="absolute right-0 bottom-0 mb-4 mr-4 ">
-                  <button className=" bg-[#ffd230] text-xl py-2 px-4 border rounded-md hover:bg-blue-500 hover:text-white transition-colors duration-300">
-                    Detail Film
-                  </button>
+                <img
+                  className="w-full h-32 sm:h-48 object-cover object-center"
+                  src={`https://image.tmdb.org/t/p/w400${movie.backdrop_path}`}
+                  alt={movie.title}
+                />
+                <div className="p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out absolute inset-0 flex justify-center items-center bg-black bg-opacity-75 rounded-lg">
+                  <p className="text-white text-center">{movie.overview}</p>
                 </div>
               </div>
             ))}
-          </div>
         </div>
-      )}
+      </div>
+      <div className="py-1 ">
+        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+      </div>
     </div>
   );
 }

@@ -4,19 +4,31 @@ import { Disclosure, Transition } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Pagination from "./Pagination";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const API_KEY = "94d5a1d8423851d4c5e487d3ebb00485";
 const ITEMS_PER_PAGE = 9;
 
-const SearchWilli = () => {
-  const [query, setQuery] = useState("");
+const Search = () => {
+  const location = useLocation();
+  const search = new URLSearchParams(location.search).get("query");
+  const [query, setQuery] = useState(search || "");
   const [movies, setMovies] = useState([]);
   const [open, setOpen] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (query.trim().length > 0) {
+        searchMovies();
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [query, currentPage]);
   const searchMovies = async () => {
     try {
       if (!query.trim()) {
@@ -43,6 +55,19 @@ const SearchWilli = () => {
     setCurrentPage(pageNumber);
   };
 
+  useEffect(() => {
+    if (query) {
+      searchMovies();
+    }
+  }, []);
+
+  // const handleEnterKeyPress = (e) => {
+  //   if (e.key === "Enter" && search.trim() !== "") {
+  //     searchMovies();
+  //     navigate(`/search`);
+  //   }
+  // };
+
   const totalPages = Math.ceil(movies.length / ITEMS_PER_PAGE);
 
   return (
@@ -62,9 +87,8 @@ const SearchWilli = () => {
           Please input a movie name.
         </div>
       </Transition>
-
-      {/* Rest of your component */}
-      <div>
+           {/* Rest of your component */}
+           <div>
         <Disclosure as="header" className="">
           <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:divide-y lg:divide-gray-700 lg:px-8">
             <div className="relative flex h-16 justify-between">
@@ -106,6 +130,7 @@ const SearchWilli = () => {
                       type="search"
                       value={query}
                       onChange={handleChange}
+                      // onKeyDown={handleEnterKeyPress}
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {
                           searchMovies();
@@ -144,8 +169,7 @@ const SearchWilli = () => {
               {/* Mobile Menu */}
               <Transition
                 show={open}
-                enter="transition ease-out duration-100"
-                enterFrom="transform opacity-0 scale-95"
+                enter="transition ease-out duration-100"                enterFrom="transform opacity-0 scale-95"
                 enterTo="transform opacity-100 scale-100"
                 leave="transition ease-in duration-75"
                 leaveFrom="transform opacity-100 scale-100"
@@ -225,4 +249,4 @@ const SearchWilli = () => {
   );
 };
 
-export default SearchWilli;
+export default Search;
