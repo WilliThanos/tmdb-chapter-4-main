@@ -1,8 +1,7 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./Home";
-import MoviePopuler from "./Rizal/MoviePopuler.jsx"
-
+import SearchWilli from "./William/SearchWilli";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -12,7 +11,7 @@ export default function App() {
     // },
     {
       path: "/",
-      element: <MoviePopuler />,
+      element: <SearchWilli />,
     },
   ]);
 
