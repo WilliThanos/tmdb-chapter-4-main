@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import axios from "axios";
 import { Disclosure, Transition } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
@@ -36,6 +36,9 @@ const SearchWilli = () => {
   };
 
   const handleChange = (event) => {
+    if (event?.target?.value?.length > 1) {
+      navigate(`/src?query=${query}`);
+    }
     setQuery(event.target.value);
   };
 
@@ -70,26 +73,21 @@ const SearchWilli = () => {
             <div className="relative flex h-16 justify-between">
               {/* Navigation */}
               <div className="hidden lg:relative lg:z-10 lg:ml-4 lg:flex lg:items-center">
-                <nav
-                  className="hidden lg:flex lg:space-x-8 lg:py-2"
-                  aria-label="Global"
-                >
-                  {/* Navigation Links */}
-                  <ul className="flex space-x-8 py-2">
-                    <li className="px-3 py-2 rounded-md text-sm font-medium text-white bg-gray-700">
-                      Dashboard
-                    </li>
-                    <li className="px-3 py-2 rounded-md text-sm font-medium text-black hover:bg-gray-700 hover:text-white">
-                      Team
-                    </li>
-                    <li className="px-3 py-2 rounded-md text-sm font-medium text-black hover:bg-gray-700 hover:text-white">
-                      Projects
-                    </li>
-                    <li className="px-3 py-2 rounded-md text-sm font-medium text-black hover:bg-gray-700 hover:text-white">
-                      Calendar
-                    </li>
-                  </ul>
-                </nav>
+              <nav className="hidden lg:flex lg:space-x-8 lg:py-2" aria-label="Global">
+  {/* Navigation Links */}
+  <ul className="flex space-x-8 py-2">
+    <li className="px-3 py-2 rounded-md text-sm font-medium text-black hover:bg-gray-700 hover:text-white">
+      <a href="#nowPlaying">Now Playing</a>
+    </li>
+    <li className="px-3 py-2 rounded-md text-sm font-medium text-black hover:bg-gray-700 hover:text-white">
+      <a href="#moviePopuler">Movie Populer</a>
+    </li>
+    <li className="px-3 py-2 rounded-md text-sm font-medium text-black hover:bg-gray-700 hover:text-white">
+      <a href="#topRated">Top Rated</a>
+    </li>
+  </ul>
+</nav>
+
               </div>
               {/* Mobile Navigation */}
               <div className="relative z-0 flex flex-1 items-center justify-center px-2 sm:absolute sm:inset-0">

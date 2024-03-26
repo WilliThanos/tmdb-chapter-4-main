@@ -17,9 +17,11 @@ const Search = () => {
   const [open, setOpen] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
+  console.log("query", query);
   useEffect(() => {
     const timer = setTimeout(() => {
       if (query.trim().length > 0) {
@@ -87,33 +89,29 @@ const Search = () => {
           Please input a movie name.
         </div>
       </Transition>
-           {/* Rest of your component */}
-           <div>
+      {/* Rest of your component */}
+      <div>
         <Disclosure as="header" className="">
           <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:divide-y lg:divide-gray-700 lg:px-8">
             <div className="relative flex h-16 justify-between">
               {/* Navigation */}
               <div className="hidden lg:relative lg:z-10 lg:ml-4 lg:flex lg:items-center">
-                <nav
-                  className="hidden lg:flex lg:space-x-8 lg:py-2"
-                  aria-label="Global"
-                >
-                  {/* Navigation Links */}
-                  <ul className="flex space-x-8 py-2">
-                    <li className="px-3 py-2 rounded-md text-sm font-medium text-white bg-gray-700">
-                      Dashboard
-                    </li>
-                    <li className="px-3 py-2 rounded-md text-sm font-medium text-black hover:bg-gray-700 hover:text-white">
-                      Team
-                    </li>
-                    <li className="px-3 py-2 rounded-md text-sm font-medium text-black hover:bg-gray-700 hover:text-white">
-                      Projects
-                    </li>
-                    <li className="px-3 py-2 rounded-md text-sm font-medium text-black hover:bg-gray-700 hover:text-white">
-                      Calendar
-                    </li>
-                  </ul>
-                </nav>
+              <nav className="hidden lg:flex lg:space-x-8 lg:py-2" aria-label="Global">
+  {/* Navigation Links */}
+  <ul className="flex space-x-8 py-2">
+    <li className="px-3 py-2 rounded-md text-sm font-medium text-black hover:bg-gray-700 hover:text-white">
+      <a href="#nowPlaying">Now Playing</a>
+    </li>
+    <li className="px-3 py-2 rounded-md text-sm font-medium text-black hover:bg-gray-700 hover:text-white">
+      <a href="#moviePopuler">Movie Populer</a>
+    </li>
+    <li className="px-3 py-2 rounded-md text-sm font-medium text-black hover:bg-gray-700 hover:text-white">
+      <a href="#topRated">Top Rated</a>
+    </li>
+  </ul>
+</nav>
+
+
               </div>
               {/* Mobile Navigation */}
               <div className="relative z-0 flex flex-1 items-center justify-center px-2 sm:absolute sm:inset-0">
@@ -123,6 +121,7 @@ const Search = () => {
                   </label>
                   <div className="relative flex items-center">
                     <input
+                      autoFocus
                       id="search"
                       name="search"
                       className="block w-full rounded-md border-0 bg-gray-200 py-1.5 pl-10 pr-3 text-gray-400 placeholder:text-gray-400 focus:bg-white focus:text-gray-900 focus:ring-0 focus:placeholder:text-gray-500 sm:text-sm sm:leading-6"
@@ -169,7 +168,8 @@ const Search = () => {
               {/* Mobile Menu */}
               <Transition
                 show={open}
-                enter="transition ease-out duration-100"                enterFrom="transform opacity-0 scale-95"
+                enter="transition ease-out duration-100"
+                enterFrom="transform opacity-0 scale-95"
                 enterTo="transform opacity-100 scale-100"
                 leave="transition ease-in duration-75"
                 leaveFrom="transform opacity-100 scale-100"
